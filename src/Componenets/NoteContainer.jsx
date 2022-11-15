@@ -21,26 +21,14 @@ function NoteContainer() {
 
     let currentDate = `${day}-${month}-${year}`;
 
-    function deleteCard(e) {
-        e.preventDefault(e)
-
-        const confirmBox = window.confirm("Do you really want to delete this Card?")
-          if (confirmBox === true) {
-            console.log("delete");
-            // document.querySelectorAll(".noteCard")[counter].remove()
-            // document.getElementById(".noteCard").innerHTML = text;
-          }
-        
-    
-    }
-
     function onAddClick(e) {
         e.preventDefault()
         testNoteCounter++
         let cardCount=testNoteCounter
         setNotesList(current => [...current, <div className={"counter"+cardCount} >
-            <div className='currentDateCard' >{currentDate} {time}</div>
+            <div className='noteCardTitle'>Note title </div> 
            <div className='noteTextCard'>newNote {cardCount}</div> 
+           <div className='currentDateCard' >{currentDate} {time}</div>
            <button  onClick={(e)=>{
                     e.preventDefault(e)
 
