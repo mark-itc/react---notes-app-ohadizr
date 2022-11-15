@@ -1,6 +1,10 @@
 import { useEffect,useState } from 'react';
 import '../CSS/NoteContainer.css'
+// import Model from './Model'
+import ReactDOM from 'react-dom';
+import Modal from 'react-modal';
 let testNoteCounter=0
+let modalContent='error in card pick'
 function NoteContainer() {
     const notes = []
 
@@ -25,7 +29,17 @@ function NoteContainer() {
         e.preventDefault()
         testNoteCounter++
         let cardCount=testNoteCounter
-        setNotesList(current => [...current, <div className={"counter"+cardCount} >
+        setNotesList(current => [...current, 
+        <div onClick={()=>{openModal(); modalContent=(
+        <div className='popUp'>
+        <div className='noteCardTitle'>Note title </div>
+        <div className='noteTextCard'>newNote {cardCount}</div>
+        <div className='currentDateCard' >{currentDate} {time}</div>
+        <button onClick={closeModal}>close</button>
+        </div>
+        )
+        
+        }} className={"noteCard counter"+cardCount} >
             <div className='noteCardTitle'>Note title </div> 
            <div className='noteTextCard'>newNote {cardCount}</div> 
            <div className='currentDateCard' >{currentDate} {time}</div>
@@ -38,14 +52,38 @@ function NoteContainer() {
                         document.querySelector(".counter"+cardCount).remove()
                       }
                     
-           }} >X</button>
+           }} >Cancel Card (X)</button>
            
            </div>])
         console.log("clickedAdd");
         console.log(notesList);    
     }
-    return(notesList,
+
+    let subtitle;
+    const [modalIsOpen, setIsOpen] = useState(false);
+  
+    function openModal() {
+      setIsOpen(true);
+    }
+  
+  
+    function closeModal() {
+      setIsOpen(false);
+    }
+    const customStyles = {
+        content: {
+          top: '50%',
+          left: '50%',
+          right: 'auto',
+          bottom: 'auto',
+          padding: '0px',
+          transform: 'translate(-50%, -50%)',
+        },
+      };
+
+    return(
         <>
+
     <form id='NoteContainer' action="submit">
         <textarea name="noteText" id="noteText" value={"NoteTest"}></textarea>
         <button id='addNoteBut' onClick={onAddClick}>add note</button>
@@ -53,6 +91,20 @@ function NoteContainer() {
         {notesList}
     </div>
     </form>
+    <div>
+      <Modal
+        isOpen={modalIsOpen}
+
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+        <div ref={(_subtitle) => (subtitle = _subtitle)}>
+        <div>{modalContent}</div>
+        </div>
+
+      </Modal>
+    </div>
         </>
     )
 }
